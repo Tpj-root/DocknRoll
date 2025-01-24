@@ -14,6 +14,34 @@ https://www.youtube.com/watch?v=hC3L51oZZoY
 
 
 
+```
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
+
+
+alias miniconda_activate='source /home/sab/miniconda3/bin/activate'
+alias miniconda_deactivate='conda deactivate'
+
+
+
+pip list --format=freeze > requirements.txt
+
+pip install -r requirements.txt
+
+```
+
+
+
+```
+(base) sab@debian:~$ conda --version
+conda 24.11.3
+
+
+
+```
+
+
+
 
 
 # TODO List for Dock ‘n’ Roll Simulation:
