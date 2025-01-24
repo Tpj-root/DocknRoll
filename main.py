@@ -6,7 +6,7 @@ from OpenGL.GLUT import *
 from OpenGL.GLU import *
 
 # Initial settings
-cube_rotation_speed = 60  # Default RPM
+cube_rotation_speed = 20  # Default RPM
 cube_angle = 0.0  # Cube rotation angle
 
 # Function to draw text at a specific location
@@ -20,7 +20,8 @@ def draw_cube():
     glBegin(GL_QUADS)
 
     # Front face (z = 1.0)
-    glColor3f(1, 0, 0)
+    # glColor3f(1, 0, 0)   # red
+    glColor3f(0.53, 0.81, 0.98)  # Sky blue color
     glVertex3f(-1, -1, 1)
     glVertex3f(1, -1, 1)
     glVertex3f(1, 1, 1)
@@ -64,11 +65,28 @@ def draw_cube():
     glEnd()
 
     # Add markings on the front face
+    # glColor3f(1, 1, 1)  # White text
+    # for angle in range(0, 360, 30):
+    #     x = math.cos(math.radians(angle)) * 0.8
+    #     y = math.sin(math.radians(angle)) * 0.8
+    #     draw_text(f"{angle}°", x, y, 1.01)
+        
+    # Add markings and lines on the front face
     glColor3f(1, 1, 1)  # White text
     for angle in range(0, 360, 30):
         x = math.cos(math.radians(angle)) * 0.8
         y = math.sin(math.radians(angle)) * 0.8
+    
+        # Draw lines from center to the angle
+        glBegin(GL_LINES)
+        glVertex3f(0, 0, 1)  # Center of the front face
+        glVertex3f(x, y, 1.01)  # Point on the circle
+        glEnd()
+    
+        # Draw text for angles
         draw_text(f"{angle}°", x, y, 1.01)
+        
+        
 
 # Function to update the rotation angle based on RPM
 def update_cube_rotation():
@@ -83,18 +101,26 @@ def update_cube_rotation():
         cube_angle -= 360.0
 
 # Display callback
+# Display callback
 def display():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
 
-    # Position the camera at the center of the cube
-    gluLookAt(0, 0, 0, 0, 0, -1, 0, 1, 0)
+    # Set up a perspective projection matrix
+    gluPerspective(45, 800 / 600, 0.1, 50.0)  # 45-degree field of view, aspect ratio, near and far clipping planes
+    
+    # Position the camera a bit farther from the cube (z=3)
+    gluLookAt(0, 0, 3, 0, 0, 0, 0, 1, 0)
 
     # Apply rotation to the cube
-    glRotatef(cube_angle, 0, 1, 0)
+    # x
+    #glRotatef(cube_angle, 0, 1, 0)
+    #glRotatef(cube_angle, 1, 0, 0)
+    glRotatef(cube_angle, 0, 0, 1)
     draw_cube()
 
     glutSwapBuffers()
+
 
 # Idle callback for continuous updates
 def idle():
