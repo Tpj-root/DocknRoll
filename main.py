@@ -29,30 +29,57 @@ def draw_text(text, x, y, z):
 
 
 # Function to draw the 3D plane with markings
-def draw_plane(color, angle, radius=0.8):
+# Function to draw a 3D wireframe square for the plane with markings
+def draw_plane(color, angle, size=0.8):
     glPushMatrix()
 
+    # Rotate the plane to simulate its angle
     glRotatef(angle, 0, 0, 1)  # Rotate around the Z-axis
 
-    # Draw the plane (a circle with lines for angles)
-    glBegin(GL_LINES)
-    for angle in range(0, 360, 30):
-        x = math.cos(math.radians(angle)) * radius
-        y = math.sin(math.radians(angle)) * radius
+    # Draw the square wireframe (representing the plane)
+    glColor3f(1, 0, 0)  # Red color for the wireframe of the plane
+    glLineWidth(2)  # Set line width for the wireframe
 
-        # Draw lines from center to the angle
-        glVertex3f(0, 0, 0)  # Center of the plane
-        glVertex3f(x, y, 0)  # Point on the circle
+    glBegin(GL_LINES)
+    # Define the vertices of the square (plane) wireframe
+    half_size = size / 2
+    # Top-left to top-right
+    glVertex3f(-half_size, half_size, 0)
+    glVertex3f(half_size, half_size, 0)
+    
+    # Top-right to bottom-right
+    glVertex3f(half_size, half_size, 0)
+    glVertex3f(half_size, -half_size, 0)
+    
+    # Bottom-right to bottom-left
+    glVertex3f(half_size, -half_size, 0)
+    glVertex3f(-half_size, -half_size, 0)
+    
+    # Bottom-left to top-left
+    glVertex3f(-half_size, -half_size, 0)
+    glVertex3f(-half_size, half_size, 0)
     glEnd()
+
+    # Draw lines from center to the edges to represent the angle markings
+    glColor3f(1, 1, 1)  # White color for the angle lines
+    for angle in range(0, 360, 30):
+        x = math.cos(math.radians(angle)) * size
+        y = math.sin(math.radians(angle)) * size
+        glBegin(GL_LINES)
+        glVertex3f(0, 0, 0)  # Center of the square
+        glVertex3f(x, y, 0)  # Edge of the square
+        glEnd()
 
     # Draw text for angles
     glColor3f(1, 1, 1)  # White text
     for angle in range(0, 360, 30):
-        x = math.cos(math.radians(angle)) * radius
-        y = math.sin(math.radians(angle)) * radius
+        x = math.cos(math.radians(angle)) * size
+        y = math.sin(math.radians(angle)) * size
         draw_text(f"{angle}°", x, y, 0.01)
 
     glPopMatrix()
+
+
 
 
 # Function to update the rotation angles based on RPM
