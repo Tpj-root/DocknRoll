@@ -137,28 +137,49 @@ class RPMControlWindow(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle('RPM Control')
-        self.setGeometry(100, 100, 400, 200)
+        self.setWindowTitle('RPM and Angle Control')
+        self.setGeometry(100, 100, 400, 300)
 
         # Layout and controls
         layout = QVBoxLayout()
 
+        # Plane 1 RPM slider
         self.plane1_label = QLabel('Plane 1 RPM: 20', self)
         self.plane1_slider = QSlider(Qt.Orientation.Horizontal, self)
         self.plane1_slider.setRange(1, 10000)
         self.plane1_slider.setValue(plane1_speed)
         self.plane1_slider.valueChanged.connect(self.update_plane1_rpm)
 
+        # Plane 1 Angle slider
+        self.plane1_angle_label = QLabel(f'Plane 1 Angle: {plane1_angle:.2f}°', self)
+        self.plane1_angle_slider = QSlider(Qt.Orientation.Horizontal, self)
+        self.plane1_angle_slider.setRange(0, 360)
+        self.plane1_angle_slider.setValue(int(plane1_angle))
+        self.plane1_angle_slider.valueChanged.connect(self.update_plane1_angle)
+
+        # Plane 2 RPM slider
         self.plane2_label = QLabel('Plane 2 RPM: 40', self)
         self.plane2_slider = QSlider(Qt.Orientation.Horizontal, self)
         self.plane2_slider.setRange(1, 10000)
         self.plane2_slider.setValue(plane2_speed)
         self.plane2_slider.valueChanged.connect(self.update_plane2_rpm)
 
+        # Plane 2 Angle slider
+        self.plane2_angle_label = QLabel(f'Plane 2 Angle: {plane2_angle:.2f}°', self)
+        self.plane2_angle_slider = QSlider(Qt.Orientation.Horizontal, self)
+        self.plane2_angle_slider.setRange(0, 360)
+        self.plane2_angle_slider.setValue(int(plane2_angle))
+        self.plane2_angle_slider.valueChanged.connect(self.update_plane2_angle)
+
         layout.addWidget(self.plane1_label)
         layout.addWidget(self.plane1_slider)
+        layout.addWidget(self.plane1_angle_label)
+        layout.addWidget(self.plane1_angle_slider)
+
         layout.addWidget(self.plane2_label)
         layout.addWidget(self.plane2_slider)
+        layout.addWidget(self.plane2_angle_label)
+        layout.addWidget(self.plane2_angle_slider)
 
         self.setLayout(layout)
 
@@ -167,10 +188,20 @@ class RPMControlWindow(QWidget):
         plane1_speed = value
         self.plane1_label.setText(f'Plane 1 RPM: {value}')
 
+    def update_plane1_angle(self, value):
+        global plane1_angle
+        plane1_angle = value
+        self.plane1_angle_label.setText(f'Plane 1 Angle: {value:.2f}°')
+
     def update_plane2_rpm(self, value):
         global plane2_speed
         plane2_speed = value
         self.plane2_label.setText(f'Plane 2 RPM: {value}')
+
+    def update_plane2_angle(self, value):
+        global plane2_angle
+        plane2_angle = value
+        self.plane2_angle_label.setText(f'Plane 2 Angle: {value:.2f}°')
 
 
 # Main function
