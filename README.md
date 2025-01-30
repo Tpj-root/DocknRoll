@@ -8,13 +8,15 @@ This simulation models the docking process between two spacecraft, showing how t
 
 
 ```
-https://www.youtube.com/watch?v=hC3L51oZZoY
+https://www.youtube.com/watch?v=8tOEpwBp5Ts
 ```
 
 
 
 
 ```
+sudo apt-get install libglut-dev
+
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 bash Miniconda3-latest-Linux-x86_64.sh
 
@@ -23,10 +25,11 @@ alias miniconda_activate='source /home/sab/miniconda3/bin/activate'
 alias miniconda_deactivate='conda deactivate'
 
 
+pip install PyQt6
+pip install PyOpenGL
 
-pip list --format=freeze > requirements.txt
+python main.py
 
-pip install -r requirements.txt
 
 ```
 
